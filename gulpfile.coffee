@@ -22,7 +22,7 @@ config =
 
 paths =
   app:
-    scripts: ["src/scripts/app.{coffee,js}", "app/scripts/**/*.{coffee,js}"] # All .js and .coffee files, starting with app.coffee or app.js
+    scripts: ["src/scripts/app.{coffee,js}", "src/scripts/**/*.{coffee,js}"] # All .js and .coffee files, starting with app.coffee or app.js
     styles: "src/styles/**/*.{scss,sass,css}" # css and scss files
     pages: "src/views/*.{html,jade,md,markdown}" # All html, jade,and markdown files that can be reached directly
     templates: "src/templates/**/*.{html,jade,md,markdown}" # All html, jade, and markdown files used as templates within the app
@@ -34,7 +34,7 @@ gulp.task 'scripts', ->
     .pipe(coffee({bare: true}).on("error", gutil.log))
     .pipe(ngAnnotate())
     .pipe(concat("application.js"))
-    .pipe(gulp.dest("dist"))
+    .pipe(gulp.dest("www/js"))
     .pipe(uglify())
     .pipe(rename({extname: ".min.js"}))
     .pipe(gulp.dest("www/js"))
