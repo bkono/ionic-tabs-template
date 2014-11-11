@@ -1,11 +1,8 @@
 angular.module 'starter', ['ionic', 'starter.controllers', 'starter.services']
 .run ($ionicPlatform) ->
   $ionicPlatform.ready ->
-    if window.cordova and window.cordova.plugins.Keyboard
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true)
-
-    if window.StatusBar
-      StatusBar.styleDefault()
+    window.cordova?.plugins.Keyboard?.hideKeyboardAccessoryBar(true)
+    window.StatusBar?.styleDefault()
 
 .config ($stateProvider, $urlRouterProvider) ->
   $stateProvider
