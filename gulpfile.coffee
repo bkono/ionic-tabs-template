@@ -6,6 +6,7 @@ gutil             = require 'gulp-util'
 rename            = require 'gulp-rename'
 clean             = require 'gulp-clean'
 sh                = require 'shelljs'
+size              = require 'gulp-size'
 
 #
 # Minification
@@ -28,6 +29,8 @@ paths =
     templates: "src/templates/**/*.{html,jade,md,markdown}" # All html, jade, and markdown files used as templates within the app
     images: "src/images/*.{png,jpg,jpeg,gif}" # All image files
     static: "src/static/*.*" # Any other static content such as the favicon
+
+tasks = {}
 
 gulp.task 'scripts', ->
   gulp.src ["src/scripts/**/*.coffee"]
@@ -56,8 +59,15 @@ gulp.task "styles", ->
     .pipe(rename({extname: ".min.css"}))
     .pipe(gulp.dest("www/css"))
 
+gulp.task 'templates', tasks.templates = ->
+  gulp.src paths.app.templates
+    .pipe(size())
+    .pipe(gulp.dest('www/templates'))
+    # .pipe(livereload())
+gulp.task 'templates:clean', ['clean'], tasks.templates
+
 gulp.task 'default', ->
-  gulp.start 'scripts', 'styles'
+  gulp.start 'scripts', 'styles', 'templates'
 
 gulp.task 'clean', ->
   gulp.src(["dist", {read: false}])
@@ -66,6 +76,7 @@ gulp.task 'clean', ->
 gulp.task 'watch', ->
   gulp.watch(paths.app.scripts, ['scripts'])
   gulp.watch(paths.app.styles, ['styles'])
+  gulp.watch paths.app.templates, ['templates']
 
 gulp.task 'install', ['git-check'], ->
   bower.commands.install().on 'log', (data) ->
